@@ -13,11 +13,13 @@ export const applyTheme = (theme = 'dark') => {
     root.classList.add('light');
     root.classList.remove('dark');
     root.style.colorScheme = 'light';
-    document.body.style.backgroundColor = '#f8fafc';
-    document.body.style.color = '#0f172a';
+    document.body.style.backgroundColor = '#F8FAFC';
+    document.body.style.color = '#172033';
   }
 
   localStorage.setItem('venturemind_theme', theme);
+  window.dispatchEvent(new Event('storage'));
+  window.dispatchEvent(new CustomEvent('theme_changed', { detail: { theme } }));
 };
 
 export const getStoredTheme = () => {

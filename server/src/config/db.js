@@ -1,12 +1,20 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import pg from 'pg';
 import mysql from 'mysql2/promise';
 import { ENV } from './env.js';
 import { runSettingsMigration } from '../migrations/migrateSettings.js';
 
-const { Pool: PgPool } = pg;
+let PgPool = null;
+if (ENV.DATABASE_URL) {
+  try {
+    const pgModule = await import('pg');
+    PgPool = pgModule.default?.Pool || pgModule.Pool;
+  } catch (err) {
+    console.warn('⚠️ DATABASE_URL was provided but pg is not installed. Run `npm install` in server.');
+  }
+}
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -115,6 +123,9 @@ export const getPool = () => {
   if (poolInstance) return poolInstance;
 
   if (ENV.DATABASE_URL) {
+    if (!PgPool) {
+      throw new Error('DATABASE_URL is defined but pg package is missing. Please run `npm install pg` in server.');
+    }
     const pgPool = new PgPool({
       connectionString: ENV.DATABASE_URL,
       ssl: { rejectUnauthorized: false },
@@ -140,6 +151,7 @@ export const getPool = () => {
     enableKeepAlive: true,
     keepAliveInitialDelay: 0,
   });
+  poolInstance.isPostgres = false;
 
   return poolInstance;
 };

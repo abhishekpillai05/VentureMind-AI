@@ -368,10 +368,10 @@ export const StartupReadinessPage = () => {
           )}
 
           {/* BOTTOM BANNER: EXPORT PDF */}
-          <div className="bg-gradient-to-r from-emerald-950/40 via-slate-900 to-emerald-950/40 border border-emerald-500/20 rounded-2xl p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="bg-gradient-to-r from-emerald-50 via-white to-emerald-50/60 dark:from-emerald-950/40 dark:via-slate-900 dark:to-emerald-950/40 border border-emerald-200/80 dark:border-emerald-500/20 rounded-2xl p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm dark:shadow-none">
             <div>
-              <h3 className="text-base font-bold text-white">Generate Investor-Ready PDF Dossier</h3>
-              <p className="text-xs text-slate-400 mt-1">
+              <h3 className="text-base font-bold text-slate-900 dark:text-white">Generate Investor-Ready PDF Dossier</h3>
+              <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">
                 Compile all validated insights, addressable market models, financial curves, and investor feedback into an executive PDF.
               </p>
             </div>

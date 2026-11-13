@@ -879,12 +879,12 @@ export const IdeaValidatorPage = () => {
           )}
 
           {/* BOTTOM BANNER: NEXT MODULE CTA */}
-          <div className="bg-gradient-to-r from-indigo-950/40 via-slate-900 to-indigo-950/40 border border-indigo-500/20 rounded-2xl p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="bg-gradient-to-r from-indigo-50 via-white to-indigo-50/60 dark:from-indigo-950/40 dark:via-slate-900 dark:to-indigo-950/40 border border-indigo-200/80 dark:border-indigo-500/20 rounded-2xl p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm dark:shadow-none">
             <div>
-              <h3 className="text-base font-bold text-white">
+              <h3 className="text-base font-bold text-slate-900 dark:text-white">
                 Ready to take {selectedStartup?.name} to virtual investors?
               </h3>
-              <p className="text-xs text-slate-400 mt-1">
+              <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">
                 Simulate an investor pitch session with AI VCs calibrated to your startup's readiness score.
               </p>
             </div>

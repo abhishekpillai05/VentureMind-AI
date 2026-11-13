@@ -37,6 +37,16 @@ export const saveFinancialModel = async ({
   return { id: res.insertId };
 };
 
+const safeParse = (val) => {
+  if (!val) return null;
+  if (typeof val === 'object') return val;
+  try {
+    return JSON.parse(val);
+  } catch {
+    return null;
+  }
+};
+
 export const getFinancialModelsByStartup = async (startup_id) => {
   const pool = getPool();
   const [rows] = await pool.execute(
@@ -45,10 +55,10 @@ export const getFinancialModelsByStartup = async (startup_id) => {
   );
   return rows.map((r) => ({
     ...r,
-    inputs: typeof r.inputs === 'string' ? JSON.parse(r.inputs) : r.inputs,
-    results: typeof r.results === 'string' ? JSON.parse(r.results) : r.results,
-    scenarios: typeof r.scenarios === 'string' ? JSON.parse(r.scenarios) : r.scenarios,
-    projections_data: typeof r.projections_data === 'string' ? JSON.parse(r.projections_data) : r.projections_data,
+    inputs: safeParse(r.inputs),
+    results: safeParse(r.results),
+    scenarios: safeParse(r.scenarios),
+    projections_data: safeParse(r.projections_data),
   }));
 };
 
@@ -62,10 +72,10 @@ export const getLatestFinancialModelByStartup = async (startup_id) => {
   const r = rows[0];
   return {
     ...r,
-    inputs: typeof r.inputs === 'string' ? JSON.parse(r.inputs) : r.inputs,
-    results: typeof r.results === 'string' ? JSON.parse(r.results) : r.results,
-    scenarios: typeof r.scenarios === 'string' ? JSON.parse(r.scenarios) : r.scenarios,
-    projections_data: typeof r.projections_data === 'string' ? JSON.parse(r.projections_data) : r.projections_data,
+    inputs: safeParse(r.inputs),
+    results: safeParse(r.results),
+    scenarios: safeParse(r.scenarios),
+    projections_data: safeParse(r.projections_data),
   };
 };
 

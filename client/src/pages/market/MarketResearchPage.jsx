@@ -625,12 +625,12 @@ export const MarketResearchPage = () => {
           )}
 
           {/* BOTTOM BANNER: NEXT MODULE */}
-          <div className="bg-gradient-to-r from-sky-950/40 via-slate-900 to-sky-950/40 border border-sky-500/20 rounded-2xl p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="bg-gradient-to-r from-sky-50 via-white to-sky-50/60 dark:from-sky-950/40 dark:via-slate-900 dark:to-sky-950/40 border border-sky-200/80 dark:border-sky-500/20 rounded-2xl p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm dark:shadow-none">
             <div>
-              <h3 className="text-base font-bold text-white">
+              <h3 className="text-base font-bold text-slate-900 dark:text-white">
                 Proceed to Financial Modelling & Unit Economics
               </h3>
-              <p className="text-xs text-slate-400 mt-1">
+              <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">
                 Simulate revenue, customer growth curves, CAC vs LTV ratios, and break-even milestones.
               </p>
             </div>

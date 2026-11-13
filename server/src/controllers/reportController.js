@@ -93,7 +93,8 @@ export const downloadPDFReport = async (req, res, next) => {
       getExchangeRates().catch(() => null),
     ]);
 
-    const latestSession = sessions.find((s) => s.status === 'completed') || sessions[0] || null;
+    const completedSession = sessions.find((s) => s.status === 'completed') || null;
+    const activeOrLatestSession = sessions[0] || null;
 
     // Set response headers for PDF download
     const filename = `${startup.name.replace(/[^a-zA-Z0-9_-]/g, '_')}_VentureMind_Report.pdf`;
@@ -102,11 +103,13 @@ export const downloadPDFReport = async (req, res, next) => {
 
     const pdfDoc = generateStartupPDFReport({
       startup,
+      founder: req.user,
       validation,
       marketResearch,
       competitors,
       financialModel,
-      investorSession: latestSession,
+      investorSession: completedSession,
+      activeSession: !completedSession ? activeOrLatestSession : null,
       pitchEvaluation,
       readiness,
       userPreferences,

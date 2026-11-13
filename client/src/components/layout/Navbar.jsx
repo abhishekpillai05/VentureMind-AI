@@ -1,13 +1,33 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useCurrency } from '../../context/CurrencyContext';
-import { Sparkles, LogOut, ArrowRight, Zap, ShieldCheck } from 'lucide-react';
+import { Sparkles, LogOut, ArrowRight, Zap, ShieldCheck, Sun, Moon } from 'lucide-react';
+import { applyTheme, getStoredTheme } from '../../utils/theme';
+import userService from '../../services/userService';
 
 export const Navbar = () => {
   const { user, isAuthenticated, logout } = useAuth();
   const { currency, currencySymbol, setCurrency, rateDate } = useCurrency();
   const navigate = useNavigate();
+  const [currentTheme, setCurrentTheme] = useState(getStoredTheme());
+
+  useEffect(() => {
+    const handleStorageChange = () => {
+      setCurrentTheme(getStoredTheme());
+    };
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, []);
+
+  const toggleTheme = () => {
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    setCurrentTheme(newTheme);
+    applyTheme(newTheme);
+    if (isAuthenticated) {
+      userService.updatePreferences({ theme: newTheme }).catch(() => {});
+    }
+  };
 
   const handleLogout = () => {
     logout();
@@ -65,6 +85,20 @@ export const Navbar = () => {
                 </select>
               </div>
 
+              {/* Light / Dark Mode Toggle Pill */}
+              <button
+                onClick={toggleTheme}
+                className="p-2 text-slate-500 hover:text-indigo-600 dark:text-slate-400 dark:hover:text-amber-300 rounded-xl bg-slate-100 dark:bg-slate-900/80 border border-slate-200 dark:border-white/[0.08] hover:border-indigo-400/40 transition-all duration-200"
+                title={`Switch to ${currentTheme === 'dark' ? 'Light' : 'Dark'} mode`}
+                aria-label="Toggle theme"
+              >
+                {currentTheme === 'dark' ? (
+                  <Sun className="w-4 h-4 text-amber-400 hover:rotate-45 transition-transform" />
+                ) : (
+                  <Moon className="w-4 h-4 text-indigo-600 hover:-rotate-12 transition-transform" />
+                )}
+              </button>
+
               {/* User Profile Pill */}
               <Link
                 to="/dashboard/settings"
@@ -101,6 +135,18 @@ export const Navbar = () => {
             </>
           ) : (
             <div className="flex items-center gap-2">
+              <button
+                onClick={toggleTheme}
+                className="p-2 text-slate-500 hover:text-indigo-600 dark:text-slate-400 dark:hover:text-amber-300 rounded-xl bg-slate-100 dark:bg-slate-900/80 border border-slate-200 dark:border-white/[0.08] hover:border-indigo-400/40 transition-all duration-200"
+                title={`Switch to ${currentTheme === 'dark' ? 'Light' : 'Dark'} mode`}
+                aria-label="Toggle theme"
+              >
+                {currentTheme === 'dark' ? (
+                  <Sun className="w-4 h-4 text-amber-400 hover:rotate-45 transition-transform" />
+                ) : (
+                  <Moon className="w-4 h-4 text-indigo-600 hover:-rotate-12 transition-transform" />
+                )}
+              </button>
               <Link
                 to="/login"
                 className="text-xs sm:text-sm font-semibold text-slate-300 hover:text-white px-3 sm:px-4 py-2 rounded-xl hover:bg-white/[0.05] transition-all"

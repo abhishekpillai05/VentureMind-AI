@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Sparkles,
@@ -20,8 +20,11 @@ import {
   Layers,
   Database,
   ArrowUpRight,
+  Sun,
+  Moon,
 } from 'lucide-react';
 import { HeroVisual } from '../components/landing/HeroVisual';
+import { applyTheme, getStoredTheme } from '../utils/theme';
 
 const features = [
   {
@@ -121,6 +124,22 @@ const metrics = [
 ];
 
 export const LandingPage = () => {
+  const [currentTheme, setCurrentTheme] = useState(getStoredTheme());
+
+  useEffect(() => {
+    const handleStorageChange = () => {
+      setCurrentTheme(getStoredTheme());
+    };
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, []);
+
+  const toggleTheme = () => {
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    setCurrentTheme(newTheme);
+    applyTheme(newTheme);
+  };
+
   return (
     <div className="bg-[#030712] text-slate-100 min-h-screen selection:bg-indigo-500 selection:text-white relative">
       {/* ─── FIXED GLOBAL NAVIGATION (STAYS PINNED AT TOP ON SCROLL) ─── */}
@@ -146,8 +165,20 @@ export const LandingPage = () => {
             <a href="#metrics" className="hover:text-white transition-colors">Impact</a>
           </div>
 
-          {/* Auth CTA */}
+          {/* Auth CTA & Theme Toggle */}
           <div className="flex items-center gap-3">
+            <button
+              onClick={toggleTheme}
+              className="p-2 text-slate-500 hover:text-indigo-600 dark:text-slate-400 dark:hover:text-amber-300 rounded-xl bg-slate-100 dark:bg-slate-900/80 border border-slate-200 dark:border-white/[0.08] hover:border-indigo-400/40 transition-all duration-200"
+              title={`Switch to ${currentTheme === 'dark' ? 'Light' : 'Dark'} mode`}
+              aria-label="Toggle theme"
+            >
+              {currentTheme === 'dark' ? (
+                <Sun className="w-4 h-4 text-amber-400 hover:rotate-45 transition-transform" />
+              ) : (
+                <Moon className="w-4 h-4 text-indigo-600 hover:-rotate-12 transition-transform" />
+              )}
+            </button>
             <Link
               to="/login"
               className="text-xs sm:text-sm font-semibold text-slate-300 hover:text-white px-3 sm:px-4 py-2 rounded-xl hover:bg-white/[0.05] transition-all"
@@ -169,24 +200,24 @@ export const LandingPage = () => {
       <section id="hero" className="relative pt-24 sm:pt-32 pb-20 overflow-hidden">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 text-center relative z-10">
           {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 mb-8 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-xs font-semibold text-indigo-300 shadow-inner">
-            <span className="w-2 h-2 rounded-full bg-indigo-400 animate-pulse" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 mb-8 rounded-full bg-indigo-50 dark:bg-indigo-500/10 border border-indigo-200 dark:border-indigo-500/20 text-xs font-semibold text-indigo-700 dark:text-indigo-300 shadow-sm dark:shadow-inner">
+            <span className="w-2 h-2 rounded-full bg-indigo-600 dark:bg-indigo-400 animate-pulse" />
             <span>Next-Gen Co-Founder & Venture Simulator</span>
             <span className="text-indigo-400/50">•</span>
-            <span className="text-indigo-200">Powered by Gemini 2.0</span>
+            <span className="text-indigo-600 dark:text-indigo-200">Powered by Gemini 2.0</span>
           </div>
 
           {/* Main Headline */}
-          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight text-white leading-[1.1] mb-6">
+          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight text-slate-900 dark:text-white leading-[1.1] mb-6">
             Build, Stress-Test & Pitch
             <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-violet-300 to-cyan-300">
+            <span className="hero-headline-gradient">
               Before Writing A Single Line of Code.
             </span>
           </h1>
 
           {/* Subheading */}
-          <p className="text-base sm:text-xl text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed font-normal">
+          <p className="text-base sm:text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed font-normal">
             Validate assumptions, size addressable markets, model unit economics, and face realistic AI investors who grill your business model in real-time.
           </p>
 
@@ -201,7 +232,7 @@ export const LandingPage = () => {
             </Link>
             <a
               href="#features"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-slate-900/80 hover:bg-slate-800 text-slate-200 hover:text-white border border-white/[0.1] px-6 py-4 rounded-2xl font-semibold text-sm transition-all shadow-sm"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white dark:bg-slate-900/80 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-white/[0.1] px-6 py-4 rounded-2xl font-semibold text-sm transition-all shadow-sm"
             >
               Explore 6 Modules
             </a>
@@ -213,16 +244,19 @@ export const LandingPage = () => {
       </section>
 
       {/* ─── LIVE METRICS STRIP ─── */}
-      <section id="metrics" className="py-16 border-y border-white/[0.06] bg-slate-950/40 relative">
+      <section id="metrics" className="py-16 border-y border-slate-200 dark:border-white/[0.06] bg-slate-50/70 dark:bg-slate-950/40 relative">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 text-center">
             {metrics.map((m) => (
-              <div key={m.label} className="p-4 rounded-2xl bg-[#090d16]/60 border border-white/[0.06] backdrop-blur-md">
-                <div className="text-3xl sm:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-white to-cyan-300">
+              <div
+                key={m.label}
+                className="p-5 rounded-2xl bg-white dark:bg-[#090d16]/60 border border-slate-200/80 dark:border-white/[0.06] shadow-sm dark:shadow-none backdrop-blur-md hover:border-indigo-300 dark:hover:border-indigo-500/30 transition-all"
+              >
+                <div className="text-3xl sm:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-indigo-500 to-cyan-600 dark:from-indigo-400 dark:via-white dark:to-cyan-300">
                   {m.value}
                 </div>
-                <div className="text-xs sm:text-sm font-semibold text-white mt-1">{m.label}</div>
-                <div className="text-[11px] text-slate-400 mt-0.5">{m.detail}</div>
+                <div className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white mt-2">{m.label}</div>
+                <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">{m.detail}</div>
               </div>
             ))}
           </div>
@@ -233,13 +267,13 @@ export const LandingPage = () => {
       <section id="features" className="py-24 relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-16">
-            <span className="text-xs font-bold uppercase tracking-widest text-indigo-400 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20">
+            <span className="text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400 px-3 py-1 rounded-full bg-indigo-50 dark:bg-indigo-500/10 border border-indigo-200 dark:border-indigo-500/20">
               Core Architecture
             </span>
-            <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight mt-4">
+            <h2 className="text-3xl sm:text-5xl font-black text-slate-900 dark:text-white tracking-tight mt-4">
               Six Comprehensive Validation Modules
             </h2>
-            <p className="text-slate-400 mt-4 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
+            <p className="text-slate-600 dark:text-slate-400 mt-4 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
               Every tool a founder needs to transform an unverified idea into an investor-ready business model.
             </p>
           </div>
@@ -248,24 +282,24 @@ export const LandingPage = () => {
             {features.map((f) => (
               <div
                 key={f.title}
-                className={`group rounded-3xl border border-white/[0.08] ${f.border} bg-[#090d16]/70 backdrop-blur-xl p-6 sm:p-7 transition-all duration-300 shadow-xl ${f.glow} flex flex-col justify-between hover:-translate-y-1`}
+                className={`group rounded-3xl border border-slate-200 dark:border-white/[0.08] ${f.border} bg-white dark:bg-[#090d16]/70 backdrop-blur-xl p-6 sm:p-7 transition-all duration-300 shadow-sm dark:shadow-xl ${f.glow} flex flex-col justify-between hover:-translate-y-1`}
               >
                 <div>
                   <div className="flex items-center justify-between mb-5">
-                    <div className="w-12 h-12 rounded-2xl bg-white/[0.04] border border-white/[0.08] flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                    <div className="w-12 h-12 rounded-2xl bg-slate-50 dark:bg-white/[0.04] border border-slate-200 dark:border-white/[0.08] flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                       <f.icon className={`w-6 h-6 ${f.color}`} />
                     </div>
-                    <span className="text-[11px] font-mono font-semibold px-2.5 py-1 rounded-full bg-white/[0.05] text-slate-300 border border-white/[0.06]">
+                    <span className="text-[11px] font-mono font-semibold px-2.5 py-1 rounded-full bg-slate-100 dark:bg-white/[0.05] text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-white/[0.06]">
                       {f.tag}
                     </span>
                   </div>
-                  <h3 className="text-lg font-bold text-white mb-2.5 group-hover:text-indigo-300 transition-colors">
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2.5 group-hover:text-indigo-600 dark:group-hover:text-indigo-300 transition-colors">
                     {f.title}
                   </h3>
-                  <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">{f.desc}</p>
+                  <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">{f.desc}</p>
                 </div>
 
-                <div className="mt-6 pt-4 border-t border-white/[0.06] flex items-center justify-between text-xs font-semibold text-slate-400 group-hover:text-white transition-colors">
+                <div className="mt-6 pt-4 border-t border-slate-100 dark:border-white/[0.06] flex items-center justify-between text-xs font-semibold text-slate-500 dark:text-slate-400 group-hover:text-indigo-600 dark:group-hover:text-white transition-colors">
                   <span>Explore Module</span>
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </div>
@@ -276,16 +310,16 @@ export const LandingPage = () => {
       </section>
 
       {/* ─── 5-STEP METHODOLOGY ─── */}
-      <section id="how-it-works" className="py-24 bg-slate-950/40 border-t border-white/[0.06] relative">
+      <section id="how-it-works" className="py-24 bg-slate-50/60 dark:bg-slate-950/40 border-t border-slate-200 dark:border-white/[0.06] relative">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-16">
-            <span className="text-xs font-bold uppercase tracking-widest text-violet-400 px-3 py-1 rounded-full bg-violet-500/10 border border-violet-500/20">
+            <span className="text-xs font-bold uppercase tracking-widest text-violet-600 dark:text-violet-400 px-3 py-1 rounded-full bg-violet-50 dark:bg-violet-500/10 border border-violet-200 dark:border-violet-500/20">
               The Protocol
             </span>
-            <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight mt-4">
+            <h2 className="text-3xl sm:text-5xl font-black text-slate-900 dark:text-white tracking-tight mt-4">
               How VentureMind AI Works
             </h2>
-            <p className="text-slate-400 mt-4 max-w-xl mx-auto text-sm sm:text-base leading-relaxed">
+            <p className="text-slate-600 dark:text-slate-400 mt-4 max-w-xl mx-auto text-sm sm:text-base leading-relaxed">
               A structured 5-step journey that replaces guessing with structured analytical verification.
             </p>
           </div>
@@ -294,19 +328,19 @@ export const LandingPage = () => {
             {steps.map((s) => (
               <div
                 key={s.num}
-                className="relative rounded-2xl bg-[#090d16]/80 border border-white/[0.08] p-5 flex flex-col justify-between hover:border-indigo-500/40 transition-all duration-300 group"
+                className="relative rounded-2xl bg-white dark:bg-[#090d16]/80 border border-slate-200 dark:border-white/[0.08] p-5 flex flex-col justify-between hover:border-indigo-400 dark:hover:border-indigo-500/40 transition-all duration-300 shadow-sm dark:shadow-none group"
               >
                 <div>
                   <div className="flex items-center justify-between mb-4">
-                    <span className="text-2xl font-black text-slate-600 group-hover:text-indigo-400 transition-colors font-mono">
+                    <span className="text-2xl font-black text-slate-300 dark:text-slate-600 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors font-mono">
                       {s.num}
                     </span>
-                    <div className="w-8 h-8 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 group-hover:scale-105 transition-transform">
+                    <div className="w-8 h-8 rounded-xl bg-indigo-50 dark:bg-indigo-500/10 border border-indigo-200 dark:border-indigo-500/20 flex items-center justify-center text-indigo-600 dark:text-indigo-400 group-hover:scale-105 transition-transform">
                       <s.icon className="w-4 h-4" />
                     </div>
                   </div>
-                  <h4 className="text-sm font-bold text-white mb-2 leading-snug">{s.title}</h4>
-                  <p className="text-xs text-slate-400 leading-relaxed">{s.desc}</p>
+                  <h4 className="text-sm font-bold text-slate-900 dark:text-white mb-2 leading-snug">{s.title}</h4>
+                  <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">{s.desc}</p>
                 </div>
               </div>
             ))}

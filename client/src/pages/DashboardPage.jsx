@@ -76,28 +76,28 @@ export const DashboardPage = () => {
   return (
     <div className="max-w-7xl mx-auto space-y-8 pb-12">
       {/* ─── WELCOME HEADER BANNER ─── */}
-      <div className="relative rounded-3xl p-6 sm:p-8 bg-gradient-to-r from-[#0d1322]/90 via-[#090d16]/90 to-[#121b33]/90 border border-white/[0.08] backdrop-blur-xl shadow-2xl overflow-hidden">
+      <div className="relative rounded-3xl p-6 sm:p-8 bg-gradient-to-r from-indigo-50/90 via-white to-blue-50/50 dark:from-[#0d1322]/90 dark:via-[#090d16]/90 dark:to-[#121b33]/90 border border-indigo-100/80 dark:border-white/[0.08] backdrop-blur-xl shadow-sm dark:shadow-2xl overflow-hidden transition-all">
         {/* Background glow orbs */}
-        <div className="absolute top-0 right-0 w-80 h-80 bg-indigo-600/15 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 left-1/3 w-60 h-60 bg-violet-600/10 rounded-full blur-2xl pointer-events-none" />
+        <div className="absolute top-0 right-0 w-80 h-80 bg-indigo-600/10 dark:bg-indigo-600/15 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 left-1/3 w-60 h-60 bg-violet-600/5 dark:bg-violet-600/10 rounded-full blur-2xl pointer-events-none" />
 
         <div className="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
           <div className="space-y-2">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-xs font-semibold text-indigo-300">
-              <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 dark:bg-indigo-500/10 border border-indigo-200 dark:border-indigo-500/20 text-xs font-semibold text-indigo-700 dark:text-indigo-300">
+              <Sparkles className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
               <span>Founder Workspace Active</span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
+            <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">
               Welcome back, {user?.full_name?.split(' ')[0] || 'Founder'} 👋
             </h1>
-            <p className="text-xs sm:text-sm text-slate-400 max-w-xl leading-relaxed">
+            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 max-w-xl leading-relaxed">
               Synthesize validation data, evaluate unit economics, and prepare your startup for investor pushback.
             </p>
           </div>
 
           <button
             onClick={() => setIsModalOpen(true)}
-            className="group relative inline-flex items-center gap-2 bg-gradient-to-r from-indigo-600 via-indigo-500 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white text-xs sm:text-sm font-bold px-5 py-3 rounded-2xl shadow-lg shadow-indigo-600/30 hover:shadow-indigo-600/50 hover:scale-[1.02] transition-all self-start sm:self-auto"
+            className="group relative inline-flex items-center gap-2 bg-gradient-to-r from-indigo-600 via-indigo-500 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white text-xs sm:text-sm font-bold px-5 py-3 rounded-2xl shadow-lg shadow-indigo-600/25 hover:shadow-indigo-600/40 hover:scale-[1.02] transition-all self-start sm:self-auto"
           >
             <Plus className="w-4 h-4 group-hover:rotate-90 transition-transform duration-200" />
             <span>Create New Startup</span>
@@ -117,38 +117,38 @@ export const DashboardPage = () => {
         </div>
       )}
 
-      {/* ─── 4 KPI GLASS CARDS ─── */}
+      {/* ─── 4 KPI CARDS (Linear / Stripe SaaS Style) ─── */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Metric 1 */}
-        <div className="p-5 rounded-2xl bg-[#0d1322]/80 border border-white/[0.08] backdrop-blur-xl shadow-lg hover:border-indigo-500/30 transition-all duration-200">
-          <div className="flex items-center justify-between text-slate-400 mb-3">
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Total Ventures</span>
-            <div className="w-8 h-8 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400">
+        <div className="p-5 rounded-2xl bg-white dark:bg-[#0d1322]/80 border border-slate-200/80 dark:border-white/[0.08] shadow-sm dark:shadow-lg hover:border-indigo-400/50 dark:hover:border-indigo-500/30 hover:shadow-md transition-all duration-200">
+          <div className="flex items-center justify-between text-slate-500 dark:text-slate-400 mb-3">
+            <span className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Total Ventures</span>
+            <div className="w-8 h-8 rounded-xl bg-indigo-50 dark:bg-indigo-500/10 border border-indigo-200 dark:border-indigo-500/20 flex items-center justify-center text-indigo-600 dark:text-indigo-400">
               <Rocket className="w-4 h-4" />
             </div>
           </div>
           <div className="flex items-baseline gap-2">
-            <span className="text-3xl font-extrabold text-white">{startupCount}</span>
-            <span className="text-xs text-slate-400 font-medium">in workspace</span>
+            <span className="text-3xl font-extrabold text-slate-900 dark:text-white">{startupCount}</span>
+            <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">in workspace</span>
           </div>
-          <div className="mt-3 text-[11px] text-slate-400">
+          <div className="mt-3 text-[11px] text-slate-500 dark:text-slate-400">
             {startupCount === 0 ? 'No ventures created yet' : `${startupCount} active pipeline projects`}
           </div>
         </div>
 
         {/* Metric 2 */}
-        <div className="p-5 rounded-2xl bg-[#0d1322]/80 border border-white/[0.08] backdrop-blur-xl shadow-lg hover:border-cyan-500/30 transition-all duration-200">
-          <div className="flex items-center justify-between text-slate-400 mb-3">
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Validated Ideas</span>
-            <div className="w-8 h-8 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400">
+        <div className="p-5 rounded-2xl bg-white dark:bg-[#0d1322]/80 border border-slate-200/80 dark:border-white/[0.08] shadow-sm dark:shadow-lg hover:border-cyan-400/50 dark:hover:border-cyan-500/30 hover:shadow-md transition-all duration-200">
+          <div className="flex items-center justify-between text-slate-500 dark:text-slate-400 mb-3">
+            <span className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Validated Ideas</span>
+            <div className="w-8 h-8 rounded-xl bg-cyan-50 dark:bg-cyan-500/10 border border-cyan-200 dark:border-cyan-500/20 flex items-center justify-center text-cyan-600 dark:text-cyan-400">
               <BrainCircuit className="w-4 h-4" />
             </div>
           </div>
           <div className="flex items-baseline gap-2">
-            <span className="text-3xl font-extrabold text-cyan-400">{validatedCount}</span>
-            <span className="text-xs text-slate-400 font-medium">of {startupCount} evaluated</span>
+            <span className="text-3xl font-extrabold text-cyan-600 dark:text-cyan-400">{validatedCount}</span>
+            <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">of {startupCount} evaluated</span>
           </div>
-          <div className="mt-3 w-full h-1.5 rounded-full bg-slate-800 overflow-hidden">
+          <div className="mt-3 w-full h-1.5 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
             <div
               className="h-full rounded-full bg-gradient-to-r from-cyan-500 to-indigo-500 transition-all duration-500"
               style={{ width: `${startupCount > 0 ? (validatedCount / startupCount) * 100 : 0}%` }}
@@ -157,38 +157,38 @@ export const DashboardPage = () => {
         </div>
 
         {/* Metric 3 */}
-        <div className="p-5 rounded-2xl bg-[#0d1322]/80 border border-white/[0.08] backdrop-blur-xl shadow-lg hover:border-emerald-500/30 transition-all duration-200">
-          <div className="flex items-center justify-between text-slate-400 mb-3">
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Avg Readiness</span>
-            <div className="w-8 h-8 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+        <div className="p-5 rounded-2xl bg-white dark:bg-[#0d1322]/80 border border-slate-200/80 dark:border-white/[0.08] shadow-sm dark:shadow-lg hover:border-emerald-400/50 dark:hover:border-emerald-500/30 hover:shadow-md transition-all duration-200">
+          <div className="flex items-center justify-between text-slate-500 dark:text-slate-400 mb-3">
+            <span className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Avg Readiness</span>
+            <div className="w-8 h-8 rounded-xl bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
               <TrendingUp className="w-4 h-4" />
             </div>
           </div>
           <div className="flex items-baseline gap-2">
-            <span className="text-3xl font-extrabold text-emerald-400">
+            <span className="text-3xl font-extrabold text-emerald-600 dark:text-emerald-400">
               {avgReadiness !== null && validatedCount > 0 ? `${avgReadiness}` : '—'}
             </span>
-            <span className="text-xs text-slate-400 font-medium">/ 100</span>
+            <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">/ 100</span>
           </div>
-          <div className="mt-3 text-[11px] text-emerald-400/90 font-medium">
+          <div className="mt-3 text-[11px] text-emerald-600 dark:text-emerald-400/90 font-medium">
             {avgReadiness >= 75 ? 'Investor Ready (High)' : avgReadiness ? 'Moderate Validation' : 'Pending first evaluation'}
           </div>
         </div>
 
         {/* Metric 4 */}
-        <div className="p-5 rounded-2xl bg-[#0d1322]/80 border border-white/[0.08] backdrop-blur-xl shadow-lg hover:border-violet-500/30 transition-all duration-200">
-          <div className="flex items-center justify-between text-slate-400 mb-3">
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-400">AI Intelligence</span>
-            <div className="w-8 h-8 rounded-xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center text-violet-400">
+        <div className="p-5 rounded-2xl bg-white dark:bg-[#0d1322]/80 border border-slate-200/80 dark:border-white/[0.08] shadow-sm dark:shadow-lg hover:border-violet-400/50 dark:hover:border-violet-500/30 hover:shadow-md transition-all duration-200">
+          <div className="flex items-center justify-between text-slate-500 dark:text-slate-400 mb-3">
+            <span className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">AI Intelligence</span>
+            <div className="w-8 h-8 rounded-xl bg-violet-50 dark:bg-violet-500/10 border border-violet-200 dark:border-violet-500/20 flex items-center justify-center text-indigo-600 dark:text-violet-400">
               <Activity className="w-4 h-4" />
             </div>
           </div>
           <div className="flex items-baseline gap-2">
-            <span className="text-3xl font-extrabold text-violet-300">Active</span>
-            <span className="text-xs text-emerald-400 font-medium">● Online</span>
+            <span className="text-3xl font-extrabold text-indigo-600 dark:text-violet-300">Active</span>
+            <span className="text-xs text-emerald-600 dark:text-emerald-400 font-medium">● Online</span>
           </div>
-          <div className="mt-3 text-[11px] text-slate-400">
-            Gemini 2.0 Engine · Neon Cloud DB
+          <div className="mt-3 text-[11px] text-slate-500 dark:text-slate-400">
+            Gemini 2.0 Engine · Cloud Architecture
           </div>
         </div>
       </div>
@@ -205,79 +205,79 @@ export const DashboardPage = () => {
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3.5">
           <Link
             to="/dashboard/validator"
-            className="p-4 rounded-2xl bg-[#0d1322]/70 border border-white/[0.08] hover:border-indigo-500/40 hover:bg-[#131e36]/70 transition-all duration-200 group flex flex-col justify-between shadow-sm"
+            className="p-4 rounded-2xl bg-white dark:bg-[#0d1322]/70 border border-slate-200/80 dark:border-white/[0.08] hover:border-indigo-400/50 dark:hover:border-indigo-500/40 hover:bg-slate-50 dark:hover:bg-[#131e36]/70 transition-all duration-200 group flex flex-col justify-between shadow-sm"
           >
-            <div className="w-9 h-9 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+            <div className="w-9 h-9 rounded-xl bg-indigo-50 dark:bg-indigo-500/10 border border-indigo-200 dark:border-indigo-500/20 text-indigo-600 dark:text-indigo-400 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
               <BrainCircuit className="w-4 h-4" />
             </div>
             <div>
-              <p className="text-xs font-bold text-white group-hover:text-indigo-300 transition-colors">Idea Validator</p>
-              <p className="text-[10px] text-slate-400 mt-0.5">SWOT & Viability</p>
+              <p className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-300 transition-colors">Idea Validator</p>
+              <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">SWOT & Viability</p>
             </div>
           </Link>
 
           <Link
             to="/dashboard/market-research"
-            className="p-4 rounded-2xl bg-[#0d1322]/70 border border-white/[0.08] hover:border-cyan-500/40 hover:bg-[#131e36]/70 transition-all duration-200 group flex flex-col justify-between shadow-sm"
+            className="p-4 rounded-2xl bg-white dark:bg-[#0d1322]/70 border border-slate-200/80 dark:border-white/[0.08] hover:border-cyan-400/50 dark:hover:border-cyan-500/40 hover:bg-slate-50 dark:hover:bg-[#131e36]/70 transition-all duration-200 group flex flex-col justify-between shadow-sm"
           >
-            <div className="w-9 h-9 rounded-xl bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+            <div className="w-9 h-9 rounded-xl bg-cyan-50 dark:bg-cyan-500/10 border border-cyan-200 dark:border-cyan-500/20 text-cyan-600 dark:text-cyan-400 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
               <Target className="w-4 h-4" />
             </div>
             <div>
-              <p className="text-xs font-bold text-white group-hover:text-cyan-300 transition-colors">Market Intel</p>
-              <p className="text-[10px] text-slate-400 mt-0.5">TAM / SAM / SOM</p>
+              <p className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-300 transition-colors">Market Intel</p>
+              <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">TAM / SAM / SOM</p>
             </div>
           </Link>
 
           <Link
             to="/dashboard/financial-simulator"
-            className="p-4 rounded-2xl bg-[#0d1322]/70 border border-white/[0.08] hover:border-emerald-500/40 hover:bg-[#131e36]/70 transition-all duration-200 group flex flex-col justify-between shadow-sm"
+            className="p-4 rounded-2xl bg-white dark:bg-[#0d1322]/70 border border-slate-200/80 dark:border-white/[0.08] hover:border-emerald-400/50 dark:hover:border-emerald-500/40 hover:bg-slate-50 dark:hover:bg-[#131e36]/70 transition-all duration-200 group flex flex-col justify-between shadow-sm"
           >
-            <div className="w-9 h-9 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+            <div className="w-9 h-9 rounded-xl bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
               <TrendingUp className="w-4 h-4" />
             </div>
             <div>
-              <p className="text-xs font-bold text-white group-hover:text-emerald-300 transition-colors">Financials</p>
-              <p className="text-[10px] text-slate-400 mt-0.5">CAC vs LTV Curve</p>
+              <p className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-300 transition-colors">Financials</p>
+              <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">CAC vs LTV Curve</p>
             </div>
           </Link>
 
           <Link
             to="/dashboard/investor"
-            className="p-4 rounded-2xl bg-[#0d1322]/70 border border-white/[0.08] hover:border-violet-500/40 hover:bg-[#131e36]/70 transition-all duration-200 group flex flex-col justify-between shadow-sm"
+            className="p-4 rounded-2xl bg-white dark:bg-[#0d1322]/70 border border-slate-200/80 dark:border-white/[0.08] hover:border-violet-400/50 dark:hover:border-violet-500/40 hover:bg-slate-50 dark:hover:bg-[#131e36]/70 transition-all duration-200 group flex flex-col justify-between shadow-sm"
           >
-            <div className="w-9 h-9 rounded-xl bg-violet-500/10 border border-violet-500/20 text-violet-400 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+            <div className="w-9 h-9 rounded-xl bg-violet-50 dark:bg-violet-500/10 border border-violet-200 dark:border-violet-500/20 text-indigo-600 dark:text-violet-400 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
               <Users className="w-4 h-4" />
             </div>
             <div>
-              <p className="text-xs font-bold text-white group-hover:text-violet-300 transition-colors">Investor Room</p>
-              <p className="text-[10px] text-slate-400 mt-0.5">AI VC Grilling</p>
+              <p className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-violet-300 transition-colors">Investor Room</p>
+              <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">AI VC Grilling</p>
             </div>
           </Link>
 
           <Link
             to="/dashboard/pitch-evaluation"
-            className="p-4 rounded-2xl bg-[#0d1322]/70 border border-white/[0.08] hover:border-amber-500/40 hover:bg-[#131e36]/70 transition-all duration-200 group flex flex-col justify-between shadow-sm"
+            className="p-4 rounded-2xl bg-white dark:bg-[#0d1322]/70 border border-slate-200/80 dark:border-white/[0.08] hover:border-amber-400/50 dark:hover:border-amber-500/40 hover:bg-slate-50 dark:hover:bg-[#131e36]/70 transition-all duration-200 group flex flex-col justify-between shadow-sm"
           >
-            <div className="w-9 h-9 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+            <div className="w-9 h-9 rounded-xl bg-amber-50 dark:bg-amber-500/10 border border-amber-200 dark:border-amber-500/20 text-amber-600 dark:text-amber-400 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
               <FileText className="w-4 h-4" />
             </div>
             <div>
-              <p className="text-xs font-bold text-white group-hover:text-amber-300 transition-colors">Pitch Coach</p>
-              <p className="text-[10px] text-slate-400 mt-0.5">Deck Diagnostics</p>
+              <p className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-amber-600 dark:group-hover:text-amber-300 transition-colors">Pitch Coach</p>
+              <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">Deck Diagnostics</p>
             </div>
           </Link>
 
           <Link
             to="/dashboard/reports"
-            className="p-4 rounded-2xl bg-[#0d1322]/70 border border-white/[0.08] hover:border-indigo-500/40 hover:bg-[#131e36]/70 transition-all duration-200 group flex flex-col justify-between shadow-sm"
+            className="p-4 rounded-2xl bg-white dark:bg-[#0d1322]/70 border border-slate-200/80 dark:border-white/[0.08] hover:border-indigo-400/50 dark:hover:border-indigo-500/40 hover:bg-slate-50 dark:hover:bg-[#131e36]/70 transition-all duration-200 group flex flex-col justify-between shadow-sm"
           >
-            <div className="w-9 h-9 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+            <div className="w-9 h-9 rounded-xl bg-indigo-50 dark:bg-indigo-500/10 border border-indigo-200 dark:border-indigo-500/20 text-indigo-600 dark:text-indigo-400 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
               <Sparkles className="w-4 h-4" />
             </div>
             <div>
-              <p className="text-xs font-bold text-white group-hover:text-indigo-300 transition-colors">Reports</p>
-              <p className="text-[10px] text-slate-400 mt-0.5">Executive Export</p>
+              <p className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-300 transition-colors">Reports</p>
+              <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">Executive Export</p>
             </div>
           </Link>
         </div>
