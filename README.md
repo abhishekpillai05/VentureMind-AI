@@ -7,7 +7,7 @@ A full-stack web application designed to help aspiring founders validate startup
 ## Tech Stack
 - **Frontend**: React 18, Vite, Tailwind CSS, Lucide Icons, React Router v6, Recharts
 - **Backend**: Node.js, Express.js (ES Modules)
-- **Database**: MySQL (Connection Pooling with `mysql2/promise`)
+- **Database**: NeonDB / MySQL(Connection Pooling with `mysql2/promise`)
 - **Validation**: Zod
 - **Security**: JWT & Bcrypt (12 salt rounds)
 - **AI Engine**: Google Gemini API
