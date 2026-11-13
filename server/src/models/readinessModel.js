@@ -35,15 +35,15 @@ export const syncAndRecalculateReadiness = async (startup_id) => {
     INSERT INTO readiness_scores 
       (startup_id, overall_score, validation_score, market_score, financial_score, investor_score, pitch_score, breakdown, action_checklist)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-    ON DUPLICATE KEY UPDATE
-      overall_score = VALUES(overall_score),
-      validation_score = VALUES(validation_score),
-      market_score = VALUES(market_score),
-      financial_score = VALUES(financial_score),
-      investor_score = VALUES(investor_score),
-      pitch_score = VALUES(pitch_score),
-      breakdown = VALUES(breakdown),
-      action_checklist = COALESCE(VALUES(action_checklist), action_checklist),
+    ON CONFLICT (startup_id) DO UPDATE SET
+      overall_score = EXCLUDED.overall_score,
+      validation_score = EXCLUDED.validation_score,
+      market_score = EXCLUDED.market_score,
+      financial_score = EXCLUDED.financial_score,
+      investor_score = EXCLUDED.investor_score,
+      pitch_score = EXCLUDED.pitch_score,
+      breakdown = EXCLUDED.breakdown,
+      action_checklist = COALESCE(EXCLUDED.action_checklist, readiness_scores.action_checklist),
       updated_at = CURRENT_TIMESTAMP
   `;
 

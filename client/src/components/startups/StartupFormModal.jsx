@@ -90,33 +90,20 @@ export const StartupFormModal = ({ isOpen, onClose, onSubmit, initialData = null
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
-
-    // Client-side quick checks
-    if (!formData.name.trim() || formData.name.trim().length < 2) {
-      setError('Startup name must be at least 2 characters long.');
-      return;
-    }
-    if (!formData.target_customer.trim() || formData.target_customer.trim().length < 3) {
-      setError('Please specify who your primary target customer is.');
-      return;
-    }
-    if (!formData.problem_statement.trim() || formData.problem_statement.trim().length < 10) {
-      setError('Problem statement must be at least 10 characters.');
-      return;
-    }
-    if (!formData.solution_statement.trim() || formData.solution_statement.trim().length < 10) {
-      setError('Solution statement must be at least 10 characters.');
-      return;
-    }
+    setLoading(true);
 
     try {
-      setLoading(true);
+      if (!formData.name.trim()) throw new Error('Startup name is required.');
+      if (!formData.target_customer.trim()) throw new Error('Target customer persona is required.');
+      if (!formData.problem_statement.trim()) throw new Error('Problem statement is required.');
+      if (!formData.solution_statement.trim()) throw new Error('Solution statement is required.');
+
       await onSubmit(formData);
       onClose();
     } catch (err) {
-      console.error('Startup submit error:', err);
       setError(
         err.response?.data?.message ||
+          err.response?.data?.errors?.[0]?.message ||
           err.message ||
           'Failed to save startup details. Please check all fields.'
       );
@@ -126,41 +113,43 @@ export const StartupFormModal = ({ isOpen, onClose, onSubmit, initialData = null
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm overflow-y-auto">
-      <div className="relative w-full max-w-2xl bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl p-6 sm:p-8 my-8 text-white max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-md overflow-y-auto">
+      <div className="relative w-full max-w-2xl bg-[#090d16]/95 border border-white/[0.12] rounded-3xl shadow-2xl p-6 sm:p-8 my-8 text-white max-h-[90vh] overflow-y-auto">
         {/* Header */}
-        <div className="flex items-center justify-between pb-4 border-b border-slate-800/80">
-          <div>
-            <h2 className="text-xl font-bold text-white flex items-center gap-2">
-              <Sparkles className="w-5 h-5 text-indigo-400" />
-              {title}
-            </h2>
-            <p className="text-xs text-slate-400 mt-0.5">
-              Accurate details power our AI Validator, Market Analysis, and Investor Simulation.
-            </p>
+        <div className="flex items-center justify-between pb-4 border-b border-white/[0.08]">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 flex items-center justify-center">
+              <Sparkles className="w-5 h-5" />
+            </div>
+            <div>
+              <h2 className="text-lg sm:text-xl font-bold text-white">{title}</h2>
+              <p className="text-xs text-slate-400 mt-0.5">
+                Parameters used across Idea Validation, Market Analysis, and Investor Simulation.
+              </p>
+            </div>
           </div>
           <button
             onClick={onClose}
-            className="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+            className="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/[0.05] transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {error && (
-          <div className="mt-4 p-3 rounded-lg bg-red-500/10 border border-red-500/30 text-red-300 text-sm flex items-center gap-2">
-            <AlertCircle className="w-4 h-4 text-red-400 flex-shrink-0" />
+          <div className="mt-4 p-3.5 rounded-2xl bg-rose-500/10 border border-rose-500/20 text-rose-300 text-xs sm:text-sm flex items-center gap-2">
+            <AlertCircle className="w-4 h-4 text-rose-400 flex-shrink-0" />
             <span>{error}</span>
           </div>
         )}
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="mt-5 space-y-4">
+        <form onSubmit={handleSubmit} className="mt-6 space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {/* Startup Name */}
             <div>
-              <label className="block text-xs font-medium text-slate-300 mb-1">
-                Startup Name <span className="text-red-400">*</span>
+              <label className="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2">
+                Startup Name <span className="text-rose-400">*</span>
               </label>
               <input
                 type="text"
@@ -169,20 +158,20 @@ export const StartupFormModal = ({ isOpen, onClose, onSubmit, initialData = null
                 value={formData.name}
                 onChange={handleChange}
                 placeholder="e.g. AgriSense AI"
-                className="w-full px-3.5 py-2 rounded-lg bg-slate-950 border border-slate-800 text-white text-sm focus:outline-none focus:border-indigo-500"
+                className="w-full px-4 py-2.5 rounded-xl bg-[#030712] border border-white/[0.1] text-white text-sm focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all"
               />
             </div>
 
             {/* Tagline */}
             <div>
-              <label className="block text-xs font-medium text-slate-300 mb-1">Tagline</label>
+              <label className="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2">Tagline</label>
               <input
                 type="text"
                 name="tagline"
                 value={formData.tagline}
                 onChange={handleChange}
-                placeholder="e.g. AI-driven soil intelligence & irrigation"
-                className="w-full px-3.5 py-2 rounded-lg bg-slate-950 border border-slate-800 text-white text-sm focus:outline-none focus:border-indigo-500"
+                placeholder="e.g. Precision soil intelligence & automated irrigation"
+                className="w-full px-4 py-2.5 rounded-xl bg-[#030712] border border-white/[0.1] text-white text-sm focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all"
               />
             </div>
           </div>
@@ -190,17 +179,17 @@ export const StartupFormModal = ({ isOpen, onClose, onSubmit, initialData = null
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {/* Industry */}
             <div>
-              <label className="block text-xs font-medium text-slate-300 mb-1">
-                Industry / Domain <span className="text-red-400">*</span>
+              <label className="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2">
+                Industry / Domain <span className="text-rose-400">*</span>
               </label>
               <select
                 name="industry"
                 value={formData.industry}
                 onChange={handleChange}
-                className="w-full px-3 py-2 rounded-lg bg-slate-950 border border-slate-800 text-white text-sm focus:outline-none focus:border-indigo-500"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-[#030712] border border-white/[0.1] text-white text-sm focus:outline-none focus:border-indigo-500 cursor-pointer"
               >
                 {INDUSTRIES.map((ind) => (
-                  <option key={ind} value={ind}>
+                  <option key={ind} value={ind} className="bg-[#0b1120] text-white">
                     {ind}
                   </option>
                 ))}
@@ -209,17 +198,17 @@ export const StartupFormModal = ({ isOpen, onClose, onSubmit, initialData = null
 
             {/* Stage */}
             <div>
-              <label className="block text-xs font-medium text-slate-300 mb-1">
-                Development Stage <span className="text-red-400">*</span>
+              <label className="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2">
+                Development Stage <span className="text-rose-400">*</span>
               </label>
               <select
                 name="stage"
                 value={formData.stage}
                 onChange={handleChange}
-                className="w-full px-3 py-2 rounded-lg bg-slate-950 border border-slate-800 text-white text-sm focus:outline-none focus:border-indigo-500"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-[#030712] border border-white/[0.1] text-white text-sm focus:outline-none focus:border-indigo-500 cursor-pointer"
               >
                 {STAGES.map((st) => (
-                  <option key={st.value} value={st.value}>
+                  <option key={st.value} value={st.value} className="bg-[#0b1120] text-white">
                     {st.label}
                   </option>
                 ))}
@@ -229,8 +218,8 @@ export const StartupFormModal = ({ isOpen, onClose, onSubmit, initialData = null
 
           {/* Target Customer */}
           <div>
-            <label className="block text-xs font-medium text-slate-300 mb-1">
-              Target Customer Persona <span className="text-red-400">*</span>
+            <label className="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2">
+              Target Customer Persona <span className="text-rose-400">*</span>
             </label>
             <input
               type="text"
@@ -239,14 +228,14 @@ export const StartupFormModal = ({ isOpen, onClose, onSubmit, initialData = null
               value={formData.target_customer}
               onChange={handleChange}
               placeholder="e.g. Commercial vineyard & citrus farm operators managing 50+ acres"
-              className="w-full px-3.5 py-2 rounded-lg bg-slate-950 border border-slate-800 text-white text-sm focus:outline-none focus:border-indigo-500"
+              className="w-full px-4 py-2.5 rounded-xl bg-[#030712] border border-white/[0.1] text-white text-sm focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all"
             />
           </div>
 
           {/* Problem Statement */}
           <div>
-            <label className="block text-xs font-medium text-slate-300 mb-1">
-              Problem Statement <span className="text-red-400">*</span>
+            <label className="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2">
+              Problem Statement <span className="text-rose-400">*</span>
             </label>
             <textarea
               name="problem_statement"
@@ -255,14 +244,14 @@ export const StartupFormModal = ({ isOpen, onClose, onSubmit, initialData = null
               value={formData.problem_statement}
               onChange={handleChange}
               placeholder="What core pain point or bottleneck are your customers facing today?"
-              className="w-full px-3.5 py-2 rounded-lg bg-slate-950 border border-slate-800 text-white text-sm focus:outline-none focus:border-indigo-500 resize-none"
+              className="w-full px-4 py-2.5 rounded-xl bg-[#030712] border border-white/[0.1] text-white text-sm focus:outline-none focus:border-indigo-500 resize-none transition-all"
             />
           </div>
 
           {/* Solution Statement */}
           <div>
-            <label className="block text-xs font-medium text-slate-300 mb-1">
-              Solution Statement <span className="text-red-400">*</span>
+            <label className="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2">
+              Solution Statement <span className="text-rose-400">*</span>
             </label>
             <textarea
               name="solution_statement"
@@ -271,23 +260,23 @@ export const StartupFormModal = ({ isOpen, onClose, onSubmit, initialData = null
               value={formData.solution_statement}
               onChange={handleChange}
               placeholder="How does your product solve this problem uniquely or 10x better?"
-              className="w-full px-3.5 py-2 rounded-lg bg-slate-950 border border-slate-800 text-white text-sm focus:outline-none focus:border-indigo-500 resize-none"
+              className="w-full px-4 py-2.5 rounded-xl bg-[#030712] border border-white/[0.1] text-white text-sm focus:outline-none focus:border-indigo-500 resize-none transition-all"
             />
           </div>
 
           {/* Revenue Model */}
           <div>
-            <label className="block text-xs font-medium text-slate-300 mb-1">
+            <label className="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2">
               Revenue Model
             </label>
             <select
               name="revenue_model"
               value={formData.revenue_model}
               onChange={handleChange}
-              className="w-full px-3 py-2 rounded-lg bg-slate-950 border border-slate-800 text-white text-sm focus:outline-none focus:border-indigo-500"
+              className="w-full px-3.5 py-2.5 rounded-xl bg-[#030712] border border-white/[0.1] text-white text-sm focus:outline-none focus:border-indigo-500 cursor-pointer"
             >
               {REVENUE_MODELS.map((model) => (
-                <option key={model} value={model}>
+                <option key={model} value={model} className="bg-[#0b1120] text-white">
                   {model}
                 </option>
               ))}
@@ -296,8 +285,8 @@ export const StartupFormModal = ({ isOpen, onClose, onSubmit, initialData = null
 
           {/* Pitch Summary */}
           <div>
-            <label className="block text-xs font-medium text-slate-300 mb-1">
-              Elevator Pitch Summary <span className="text-slate-500">(Optional)</span>
+            <label className="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2">
+              Elevator Pitch Summary <span className="text-slate-500 text-[10px] lowercase">(optional)</span>
             </label>
             <textarea
               name="pitch_summary"
@@ -305,24 +294,24 @@ export const StartupFormModal = ({ isOpen, onClose, onSubmit, initialData = null
               value={formData.pitch_summary}
               onChange={handleChange}
               placeholder="A 2-3 sentence elevator pitch describing the vision and opportunity."
-              className="w-full px-3.5 py-2 rounded-lg bg-slate-950 border border-slate-800 text-white text-sm focus:outline-none focus:border-indigo-500 resize-none"
+              className="w-full px-4 py-2.5 rounded-xl bg-[#030712] border border-white/[0.1] text-white text-sm focus:outline-none focus:border-indigo-500 resize-none transition-all"
             />
           </div>
 
           {/* Actions */}
-          <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-800/80">
+          <div className="flex items-center justify-end gap-3 pt-4 border-t border-white/[0.08]">
             <button
               type="button"
               onClick={onClose}
               disabled={loading}
-              className="px-4 py-2 text-sm text-slate-400 hover:text-white rounded-lg hover:bg-slate-800 transition-colors"
+              className="px-4 py-2.5 text-xs font-semibold text-slate-400 hover:text-white rounded-xl hover:bg-white/[0.05] transition-colors"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 text-white text-sm font-semibold px-5 py-2 rounded-lg transition-colors shadow-sm"
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 disabled:opacity-50 text-white text-xs sm:text-sm font-bold px-6 py-2.5 rounded-xl shadow-lg shadow-indigo-600/30 transition-all"
             >
               {loading ? (
                 <>

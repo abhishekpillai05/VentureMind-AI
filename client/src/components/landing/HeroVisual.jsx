@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Lightbulb,
   Globe,
@@ -9,158 +9,223 @@ import {
   ArrowUpRight,
   ShieldCheck,
   Zap,
+  Activity,
+  Bot,
+  MessageSquare,
+  DollarSign,
 } from 'lucide-react';
 
 export const HeroVisual = () => {
+  const [activeTab, setActiveTab] = useState('simulation');
+
   return (
-    <div className="relative w-full max-w-4xl mx-auto mt-16 px-4">
-      {/* Ambient gradient glow behind visual */}
-      <div className="absolute inset-0 -top-8 bg-gradient-to-r from-indigo-600/10 via-violet-600/15 to-blue-600/10 rounded-3xl blur-2xl -z-10" />
+    <div className="relative w-full max-w-5xl mx-auto mt-12 sm:mt-16 px-2 sm:px-4">
+      {/* Dynamic multi-color ambient glow behind the preview */}
+      <div className="absolute -inset-4 bg-gradient-to-r from-indigo-500/20 via-purple-500/20 to-cyan-500/15 rounded-3xl blur-3xl -z-10 opacity-70 animate-pulse-glow" />
 
-      {/* Outer frame */}
-      <div className="relative rounded-2xl border border-slate-800/80 bg-slate-900/40 backdrop-blur-md p-6 sm:p-8 shadow-2xl shadow-black/60 overflow-hidden">
-        {/* Subtle geometric grid background */}
-        <div className="absolute inset-0 bg-grid-pattern opacity-40 pointer-events-none" />
+      {/* Main glass frame */}
+      <div className="relative rounded-3xl border border-white/[0.12] bg-[#090d16]/80 backdrop-blur-2xl p-4 sm:p-7 shadow-2xl shadow-black/80 overflow-hidden">
+        {/* Subtle grid pattern overlay */}
+        <div className="absolute inset-0 bg-grid-cyber opacity-40 pointer-events-none" />
 
-        {/* Top header indicator */}
-        <div className="relative z-10 flex items-center justify-between pb-6 border-b border-slate-800/60 mb-8">
-          <div className="flex items-center gap-2.5">
-            <span className="flex h-2.5 w-2.5 relative">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
-            </span>
-            <span className="text-xs font-semibold uppercase tracking-wider text-slate-300">
-              Venture Intelligence Engine
+        {/* Top Control Bar */}
+        <div className="relative z-10 flex flex-wrap items-center justify-between gap-3 pb-5 border-b border-white/[0.08] mb-6">
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900/90 border border-white/[0.08] shadow-sm">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+              <span className="text-xs font-bold text-white tracking-wide">LIVE SIMULATOR</span>
+            </div>
+            <span className="hidden sm:inline text-xs text-slate-400 font-mono">
+              Venture: <span className="text-indigo-300 font-semibold">PulseAI Health</span>
             </span>
           </div>
-          <div className="flex items-center gap-2 text-xs text-slate-400 bg-slate-800/40 px-3 py-1 rounded-full border border-slate-800">
-            <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
-            <span>AI Validation Pipeline</span>
+
+          {/* Quick Module Tabs */}
+          <div className="flex items-center gap-1 p-1 rounded-xl bg-slate-950/70 border border-white/[0.06] text-xs">
+            <button
+              onClick={() => setActiveTab('simulation')}
+              className={`px-3 py-1 rounded-lg font-medium transition-all ${
+                activeTab === 'simulation'
+                  ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/40'
+                  : 'text-slate-400 hover:text-white'
+              }`}
+            >
+              Investor Room
+            </button>
+            <button
+              onClick={() => setActiveTab('metrics')}
+              className={`px-3 py-1 rounded-lg font-medium transition-all ${
+                activeTab === 'metrics'
+                  ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/40'
+                  : 'text-slate-400 hover:text-white'
+              }`}
+            >
+              TAM & Sizing
+            </button>
+            <button
+              onClick={() => setActiveTab('readiness')}
+              className={`px-3 py-1 rounded-lg font-medium transition-all ${
+                activeTab === 'readiness'
+                  ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/40'
+                  : 'text-slate-400 hover:text-white'
+              }`}
+            >
+              Readiness Score
+            </button>
           </div>
         </div>
 
-        {/* Interactive nodes grid */}
-        <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
-          {/* Left Column: Input & Market Nodes */}
-          <div className="space-y-4">
-            {/* Node 1: Idea Ingestion */}
-            <div className="p-4 rounded-xl bg-slate-900/90 border border-slate-800/80 hover:border-indigo-500/40 transition-all duration-300 group">
-              <div className="flex items-center justify-between mb-2">
-                <div className="w-8 h-8 rounded-lg bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 group-hover:scale-105 transition-transform">
+        {/* 3-Column Glass Content Grid */}
+        <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
+          {/* Left Column: Idea & Market Validation (4 cols) */}
+          <div className="lg:col-span-4 space-y-4 flex flex-col justify-between">
+            {/* Validation Node Card */}
+            <div className="p-4 rounded-2xl bg-[#0d1322]/80 border border-white/[0.08] hover:border-indigo-500/40 transition-all duration-300 shadow-lg group">
+              <div className="flex items-center justify-between mb-3">
+                <div className="w-8 h-8 rounded-xl bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400 group-hover:scale-105 transition-transform">
                   <Lightbulb className="w-4 h-4" />
                 </div>
-                <span className="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full bg-indigo-500/10 text-indigo-300 border border-indigo-500/20">
-                  Step 1
+                <span className="text-[10px] font-bold tracking-wider px-2.5 py-0.5 rounded-full bg-indigo-500/10 text-indigo-300 border border-indigo-500/20">
+                  STEP 01
                 </span>
               </div>
-              <h4 className="text-xs font-bold text-white">Idea & Problem Validation</h4>
-              <p className="text-[11px] text-slate-400 mt-1">Lean Canvas & SWOT Analysis</p>
-              <div className="mt-2.5 flex items-center gap-1.5 text-[11px] text-emerald-400 font-medium">
-                <CheckCircle2 className="w-3.5 h-3.5" />
-                <span>Problem-Solution Fit: 85%</span>
+              <h4 className="text-sm font-bold text-white">Idea Validation</h4>
+              <p className="text-xs text-slate-400 mt-1">Problem-Solution Fit & Lean Canvas</p>
+              
+              <div className="mt-3 pt-3 border-t border-white/[0.06] flex items-center justify-between text-xs">
+                <span className="text-slate-400">Viability Score</span>
+                <span className="text-emerald-400 font-bold flex items-center gap-1">
+                  <CheckCircle2 className="w-3.5 h-3.5" /> 92% (High)
+                </span>
               </div>
             </div>
 
-            {/* Node 2: Market Intelligence */}
-            <div className="p-4 rounded-xl bg-slate-900/90 border border-slate-800/80 hover:border-emerald-500/40 transition-all duration-300 group">
-              <div className="flex items-center justify-between mb-2">
-                <div className="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 group-hover:scale-105 transition-transform">
+            {/* Market Sizing Node Card */}
+            <div className="p-4 rounded-2xl bg-[#0d1322]/80 border border-white/[0.08] hover:border-cyan-500/40 transition-all duration-300 shadow-lg group">
+              <div className="flex items-center justify-between mb-3">
+                <div className="w-8 h-8 rounded-xl bg-cyan-500/20 border border-cyan-500/30 flex items-center justify-center text-cyan-400 group-hover:scale-105 transition-transform">
                   <Globe className="w-4 h-4" />
                 </div>
-                <span className="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">
-                  Step 2
+                <span className="text-[10px] font-bold tracking-wider px-2.5 py-0.5 rounded-full bg-cyan-500/10 text-cyan-300 border border-cyan-500/20">
+                  STEP 02
                 </span>
               </div>
-              <h4 className="text-xs font-bold text-white">Market & Sizing Engine</h4>
-              <p className="text-[11px] text-slate-400 mt-1">TAM / SAM / SOM Modeling</p>
-              <div className="mt-2.5 flex items-center gap-1.5 text-[11px] text-emerald-400 font-medium">
-                <CheckCircle2 className="w-3.5 h-3.5" />
-                <span>Market Opportunity: High</span>
+              <h4 className="text-sm font-bold text-white">Market Sizing (TAM/SAM)</h4>
+              
+              <div className="mt-2 space-y-1.5">
+                <div className="flex justify-between text-xs">
+                  <span className="text-slate-400">Global TAM:</span>
+                  <span className="text-cyan-300 font-bold">$8.4 Billion</span>
+                </div>
+                <div className="w-full h-1.5 rounded-full bg-slate-800 overflow-hidden">
+                  <div className="w-4/5 h-full rounded-full bg-gradient-to-r from-cyan-500 to-indigo-500" />
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Center Column: Central Synthesis Engine */}
-          <div className="p-6 rounded-2xl bg-gradient-to-b from-indigo-950/40 via-slate-900/90 to-slate-900/90 border border-indigo-500/30 text-center relative shadow-lg shadow-indigo-950/20">
-            <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center mx-auto mb-4 text-white shadow-lg shadow-indigo-600/30">
-              <Zap className="w-7 h-7" />
-            </div>
-            <p className="text-[11px] font-semibold uppercase tracking-wider text-indigo-400">
-              Synthesis Output
-            </p>
-            <h3 className="text-lg font-bold text-white mt-1">Startup Readiness Index</h3>
-            
-            {/* Visual Circular Gauge Representation */}
-            <div className="my-4 py-3 px-4 rounded-xl bg-slate-950/70 border border-slate-800/80">
-              <span className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-violet-300 to-emerald-400">
-                88
+          {/* Center Column: Interactive AI Investor Simulation / Synthesis (5 cols) */}
+          <div className="lg:col-span-5 p-5 rounded-2xl bg-gradient-to-b from-[#11192e] via-[#0d1322] to-[#090d16] border border-indigo-500/30 shadow-xl flex flex-col justify-between relative overflow-hidden">
+            {/* Top Badge */}
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-2">
+                <div className="w-7 h-7 rounded-lg bg-gradient-to-tr from-violet-600 to-indigo-600 flex items-center justify-center text-white shadow-md">
+                  <Bot className="w-4 h-4" />
+                </div>
+                <div>
+                  <h5 className="text-xs font-bold text-white">Alex Morgan (Tier 1 VC)</h5>
+                  <span className="text-[10px] text-emerald-400 font-medium">● Virtual Partner Active</span>
+                </div>
+              </div>
+              <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-violet-500/20 text-violet-300 border border-violet-500/30">
+                Turn 4/8
               </span>
-              <span className="text-xs text-slate-500 ml-1">/ 100</span>
-              <p className="text-[11px] text-emerald-400 font-medium mt-1">
-                Investability Score: High
-              </p>
             </div>
 
-            <p className="text-[11px] text-slate-400 leading-relaxed">
-              Synthesizing market depth, unit economics, and simulated investor feedback.
-            </p>
+            {/* Simulated Chat Dialogue */}
+            <div className="space-y-3 my-2 text-xs">
+              {/* VC Message */}
+              <div className="p-3 rounded-xl bg-slate-950/70 border border-white/[0.08] text-slate-300">
+                <p className="font-semibold text-indigo-300 text-[11px] mb-1">Alex Morgan:</p>
+                <p className="leading-relaxed">
+                  "Your 4.2x LTV-to-CAC ratio is compelling, but how will customer acquisition hold up once Meta ad costs spike 20% in Q3?"
+                </p>
+              </div>
+
+              {/* Founder Response Pill */}
+              <div className="p-3 rounded-xl bg-indigo-600/20 border border-indigo-500/30 text-indigo-100 ml-3">
+                <p className="font-semibold text-indigo-300 text-[11px] mb-1">Founder Pitch Answer:</p>
+                <p className="leading-relaxed">
+                  "We rely on organic EHR integrations and viral doctor-to-patient referrals, keeping paid acquisition below 28% of total volume."
+                </p>
+              </div>
+            </div>
+
+            {/* Simulated Live Sentiment Meter */}
+            <div className="mt-4 pt-3 border-t border-white/[0.08] flex items-center justify-between text-xs">
+              <div className="flex items-center gap-2">
+                <Activity className="w-4 h-4 text-emerald-400 animate-pulse" />
+                <span className="text-slate-300 font-medium">Investor Sentiment:</span>
+              </div>
+              <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30">
+                Term Sheet Likely (88%)
+              </span>
+            </div>
           </div>
 
-          {/* Right Column: Financials & Investor Nodes */}
-          <div className="space-y-4">
-            {/* Node 3: Financial Simulator */}
-            <div className="p-4 rounded-xl bg-slate-900/90 border border-slate-800/80 hover:border-amber-500/40 transition-all duration-300 group">
-              <div className="flex items-center justify-between mb-2">
-                <div className="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 group-hover:scale-105 transition-transform">
-                  <TrendingUp className="w-4 h-4" />
-                </div>
-                <span className="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-300 border border-amber-500/20">
-                  Step 3
-                </span>
+          {/* Right Column: Readiness Index Gauge (3 cols) */}
+          <div className="lg:col-span-3 p-5 rounded-2xl bg-[#0d1322]/80 border border-white/[0.08] flex flex-col justify-between text-center shadow-lg">
+            <div>
+              <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-indigo-500 to-emerald-400 flex items-center justify-center mx-auto mb-3 text-white shadow-lg shadow-indigo-500/30">
+                <Zap className="w-5 h-5" />
               </div>
-              <h4 className="text-xs font-bold text-white">Unit Economics & Runway</h4>
-              <p className="text-[11px] text-slate-400 mt-1">CAC, LTV & 3-Year Projections</p>
-              <div className="mt-2.5 flex items-center gap-1.5 text-[11px] text-emerald-400 font-medium">
-                <CheckCircle2 className="w-3.5 h-3.5" />
-                <span>LTV / CAC Ratio: 4.8x</span>
+              <h5 className="text-xs font-bold uppercase tracking-wider text-slate-400">
+                Startup Readiness Index
+              </h5>
+              
+              {/* Radial Big Score */}
+              <div className="my-4 py-4 px-3 rounded-2xl bg-slate-950/80 border border-white/[0.08]">
+                <div className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-violet-300 to-emerald-400">
+                  91
+                </div>
+                <span className="text-[11px] text-slate-500 uppercase tracking-widest font-mono">
+                  Out of 100
+                </span>
+                <p className="text-[11px] text-emerald-400 font-semibold mt-1">
+                  Grade A: Investor-Ready
+                </p>
               </div>
             </div>
 
-            {/* Node 4: Investor Pitch Grilling */}
-            <div className="p-4 rounded-xl bg-slate-900/90 border border-slate-800/80 hover:border-violet-500/40 transition-all duration-300 group">
-              <div className="flex items-center justify-between mb-2">
-                <div className="w-8 h-8 rounded-lg bg-violet-500/10 border border-violet-500/20 flex items-center justify-center text-violet-400 group-hover:scale-105 transition-transform">
-                  <Users className="w-4 h-4" />
-                </div>
-                <span className="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full bg-violet-500/10 text-violet-300 border border-violet-500/20">
-                  Step 4
-                </span>
+            <div className="space-y-1.5 text-left text-[11px] text-slate-400">
+              <div className="flex justify-between">
+                <span>Validation Fit:</span>
+                <span className="text-white font-semibold">94%</span>
               </div>
-              <h4 className="text-xs font-bold text-white">Multi-Persona AI VCs</h4>
-              <p className="text-[11px] text-slate-400 mt-1">Realistic Pushback & Pitch Scoring</p>
-              <div className="mt-2.5 flex items-center gap-1.5 text-[11px] text-emerald-400 font-medium">
-                <CheckCircle2 className="w-3.5 h-3.5" />
-                <span>Term Sheet Readiness: Verified</span>
+              <div className="flex justify-between">
+                <span>Financial Model:</span>
+                <span className="text-white font-semibold">88%</span>
+              </div>
+              <div className="flex justify-between">
+                <span>Defensibility Moat:</span>
+                <span className="text-white font-semibold">91%</span>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Bottom micro-features ticker */}
-        <div className="relative z-10 mt-6 pt-5 border-t border-slate-800/60 flex flex-wrap items-center justify-between gap-4 text-[11px] text-slate-400">
+        {/* Bottom Security / Feature Strip */}
+        <div className="relative z-10 mt-6 pt-4 border-t border-white/[0.08] flex flex-wrap items-center justify-between gap-3 text-xs text-slate-400">
           <div className="flex items-center gap-2">
-            <ShieldCheck className="w-3.5 h-3.5 text-indigo-400" />
-            <span>Cryptographically Secure Session & Data Isolation</span>
+            <ShieldCheck className="w-4 h-4 text-emerald-400" />
+            <span className="text-slate-300 font-medium">Neon PostgreSQL Cloud · Data Privacy Guaranteed</span>
           </div>
-          <div className="flex items-center gap-4">
-            <span className="flex items-center gap-1.5 text-slate-300">
-              <span className="w-1.5 h-1.5 rounded-full bg-indigo-400" />
-              Dynamic Unit Modeling
-            </span>
-            <span className="flex items-center gap-1.5 text-slate-300">
-              <span className="w-1.5 h-1.5 rounded-full bg-violet-400" />
-              Multi-Agent Simulation
-            </span>
+          <div className="flex items-center gap-3 font-mono text-[11px] text-slate-400">
+            <span>Deterministic Scoring</span>
+            <span>•</span>
+            <span>Gemini AI Intelligence</span>
+            <span>•</span>
+            <span>5-Axis Evaluation</span>
           </div>
         </div>
       </div>

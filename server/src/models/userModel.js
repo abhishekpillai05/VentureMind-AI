@@ -126,17 +126,17 @@ export const upsertUserPreferences = async (userId, prefs) => {
       date_format, theme
     )
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    ON DUPLICATE KEY UPDATE
-      email_notifications = VALUES(email_notifications),
-      analysis_completed = VALUES(analysis_completed),
-      investor_activity = VALUES(investor_activity),
-      pitch_evaluated = VALUES(pitch_evaluated),
-      monthly_summary = VALUES(monthly_summary),
-      currency = VALUES(currency),
-      currency_symbol = VALUES(currency_symbol),
-      number_format = VALUES(number_format),
-      date_format = VALUES(date_format),
-      theme = VALUES(theme),
+    ON CONFLICT (user_id) DO UPDATE SET
+      email_notifications = EXCLUDED.email_notifications,
+      analysis_completed = EXCLUDED.analysis_completed,
+      investor_activity = EXCLUDED.investor_activity,
+      pitch_evaluated = EXCLUDED.pitch_evaluated,
+      monthly_summary = EXCLUDED.monthly_summary,
+      currency = EXCLUDED.currency,
+      currency_symbol = EXCLUDED.currency_symbol,
+      number_format = EXCLUDED.number_format,
+      date_format = EXCLUDED.date_format,
+      theme = EXCLUDED.theme,
       updated_at = CURRENT_TIMESTAMP
   `;
   await pool.execute(sql, [

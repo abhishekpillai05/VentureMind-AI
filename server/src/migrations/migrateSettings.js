@@ -3,6 +3,16 @@ import { getPool } from '../config/db.js';
 export const runSettingsMigration = async () => {
   const pool = getPool();
   try {
+    if (pool.isPostgres) {
+      await pool.query('ALTER TABLE users ADD COLUMN IF NOT EXISTS avatar_url TEXT DEFAULT NULL');
+      await pool.query('ALTER TABLE users ADD COLUMN IF NOT EXISTS bio TEXT DEFAULT NULL');
+      await pool.query('ALTER TABLE users ADD COLUMN IF NOT EXISTS headline VARCHAR(150) DEFAULT NULL');
+      await pool.query('ALTER TABLE users ADD COLUMN IF NOT EXISTS phone VARCHAR(50) DEFAULT NULL');
+      await pool.query('ALTER TABLE users ADD COLUMN IF NOT EXISTS location VARCHAR(120) DEFAULT NULL');
+      console.log('✅ Settings migration verified for PostgreSQL.');
+      return;
+    }
+
     // 1. Modify avatar_url to MEDIUMTEXT to allow base64 or long image URLs
     await pool.query('ALTER TABLE `users` MODIFY COLUMN `avatar_url` MEDIUMTEXT NULL');
 

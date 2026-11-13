@@ -30,6 +30,7 @@ import {
 import { useAuth } from '../../context/AuthContext';
 import { useCurrency } from '../../context/CurrencyContext';
 import userService from '../../services/userService';
+import { applyTheme } from '../../utils/theme';
 
 export const SettingsPage = () => {
   const { user, updateUser, logout } = useAuth();
@@ -133,6 +134,9 @@ export const SettingsPage = () => {
             ...prev,
             ...data.preferences,
           }));
+          if (data.preferences.theme) {
+            applyTheme(data.preferences.theme);
+          }
         }
       } catch (err) {
         console.error('Failed to load profile:', err);
@@ -216,6 +220,9 @@ export const SettingsPage = () => {
       const res = await userService.updatePreferences(preferences);
       if (res.success && res.preferences) {
         setPreferences((prev) => ({ ...prev, ...res.preferences }));
+        if (res.preferences.theme) {
+          applyTheme(res.preferences.theme);
+        }
         setSuccessMessage(`${sectionName} saved successfully!`);
       }
     } catch (err) {
@@ -1043,9 +1050,14 @@ export const SettingsPage = () => {
               </p>
               <select
                 value={preferences.theme}
-                onChange={(e) => setPreferences((prev) => ({ ...prev, theme: e.target.value }))}
+                onChange={(e) => {
+                  const newTheme = e.target.value;
+                  setPreferences((prev) => ({ ...prev, theme: newTheme }));
+                  applyTheme(newTheme);
+                }}
                 className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2.5 text-white text-sm focus:outline-none focus:border-indigo-500"
               >
+                <option value="light">VentureMind Light Theme</option>
                 <option value="dark">VentureMind Dark Navy [Signature Theme]</option>
                 <option value="system">Follow System Defaults</option>
               </select>
