@@ -5,7 +5,6 @@
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Neon_Cloud-blue.svg)](https://neon.tech/)
 [![TailwindCSS](https://img.shields.io/badge/TailwindCSS-v3-cyan.svg)](https://tailwindcss.com/)
 [![Gemini](https://img.shields.io/badge/Google_Gemini-2.5_Live-indigo.svg)](https://ai.google.dev/)
-[![License](https://img.shields.io/badge/License-MIT-purple.svg)](LICENSE)
 
 **VentureMind AI** is an intelligent, full-stack entrepreneurial co-founder simulator and startup training platform. Powered by Google Gemini AI, it helps founders stress-test assumptions, assess market opportunities, calculate unit economics, pitch to virtual venture capitalists, and prepare for institutional fundraising.
 
@@ -189,5 +188,3 @@ npm run test:integration
 
 ---
 
-## 📄 License
-This project is licensed under the MIT License.
