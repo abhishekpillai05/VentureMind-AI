@@ -54,14 +54,6 @@ export const Navbar = () => {
           </div>
         </Link>
 
-        {/* Live System Indicator (Desktop) */}
-        <div className="hidden lg:flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900/60 border border-white/[0.06] text-[11px] font-medium text-slate-400">
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
-          <span className="text-emerald-400 font-semibold">Gemini Intelligence</span>
-          <span className="text-slate-600">•</span>
-          <span className="text-slate-400">v2.5 Live</span>
-        </div>
-
         {/* Actions & Profile */}
         <div className="flex items-center gap-2.5 sm:gap-3">
           {isAuthenticated ? (

@@ -2,14 +2,14 @@ import crypto from 'crypto';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { ENV } from '../config/env.js';
-import { createUser, findUserByEmail, markEmailVerified } from '../models/userModel.js';
+import { createUser, findUserByEmail, markEmailVerified, updateUserPassword } from '../models/userModel.js';
 import {
   createVerification,
   getActiveVerification,
   incrementAttempts,
   markVerificationUsed,
 } from '../models/verificationModel.js';
-import { sendOTPEmail } from '../services/emailService.js';
+import { sendOTPEmail, sendPasswordResetOTPEmail } from '../services/emailService.js';
 import { AppError } from '../middleware/errorHandler.js';
 
 const signToken = (id) => {
@@ -277,6 +277,121 @@ export const getMe = async (req, res, next) => {
     res.status(200).json({
       success: true,
       user: req.user,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// ─── FORGOT PASSWORD (REQUEST OTP) ───
+export const forgotPassword = async (req, res, next) => {
+  try {
+    const { email } = req.body;
+    const normalizedEmail = email.trim().toLowerCase();
+
+    const user = await findUserByEmail(normalizedEmail);
+    if (!user) {
+      return next(new AppError('No account found with this email address.', 404));
+    }
+
+    // Rate limit check: 60-second cooldown
+    const existing = await getActiveVerification(user.id);
+    if (existing) {
+      const elapsed = Date.now() - new Date(existing.created_at).getTime();
+      if (elapsed < 60000) {
+        const wait = Math.ceil((60000 - elapsed) / 1000);
+        return next(new AppError(`Please wait ${wait} seconds before requesting a new code.`, 429));
+      }
+    }
+
+    const otp = generateOTP();
+    const otpHash = await bcrypt.hash(otp, 10);
+    const expiresAt = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
+
+    await createVerification({
+      user_id: user.id,
+      otp_hash: otpHash,
+      expires_at: expiresAt,
+    });
+
+    try {
+      await sendPasswordResetOTPEmail(normalizedEmail, user.full_name, otp);
+    } catch (mailErr) {
+      return next(new AppError(`Unable to deliver password reset email: ${mailErr.message}`, 500));
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'A 6-digit password reset code has been dispatched to your email.',
+      email: normalizedEmail,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// ─── RESET PASSWORD (VERIFY OTP & UPDATE PASSWORD) ───
+export const resetPassword = async (req, res, next) => {
+  try {
+    const { email, otp, new_password } = req.body;
+    const normalizedEmail = email.trim().toLowerCase();
+
+    const user = await findUserByEmail(normalizedEmail);
+    if (!user) {
+      return next(new AppError('No account found with this email address.', 404));
+    }
+
+    const verification = await getActiveVerification(user.id);
+    if (!verification) {
+      return next(new AppError('No active password reset code found. Please request a new one.', 400));
+    }
+
+    // Check max attempts (5)
+    if (verification.attempts >= 5) {
+      await markVerificationUsed(verification.id);
+      return next(new AppError('Too many failed attempts. Please request a new verification code.', 429));
+    }
+
+    // Check expiry
+    if (new Date(verification.expires_at) < new Date()) {
+      await markVerificationUsed(verification.id);
+      return next(new AppError('Verification code has expired. Please request a new code.', 410));
+    }
+
+    // Increment attempt counter
+    await incrementAttempts(verification.id);
+
+    // Verify OTP
+    const isValid = await bcrypt.compare(otp.trim(), verification.otp_hash);
+    if (!isValid) {
+      const remaining = 5 - (verification.attempts + 1);
+      return next(
+        new AppError(
+          `Invalid verification code. ${
+            remaining > 0
+              ? `${remaining} attempt${remaining === 1 ? '' : 's'} remaining.`
+              : 'No attempts remaining. Please request a new code.'
+          }`,
+          400
+        )
+      );
+    }
+
+    // Mark verification as used
+    await markVerificationUsed(verification.id);
+
+    // Hash new password and update
+    const password_hash = await bcrypt.hash(new_password, 12);
+    await updateUserPassword(user.id, password_hash);
+
+    // If user was previously unverified, mark as verified since they proven ownership of this inbox
+    if (!user.email_verified) {
+      await markEmailVerified(user.id);
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Password reset successfully. You can now sign in with your new password.',
     });
   } catch (error) {
     next(error);

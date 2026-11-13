@@ -178,7 +178,7 @@ export const RegisterPage = () => {
                   required
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
-                  placeholder="Karthik Sheregar"
+                  placeholder="e.g. Alex Morgan"
                   className={`w-full bg-[#030712]/90 border ${
                     fieldErrors.full_name ? 'border-rose-500/50' : 'border-white/[0.1]'
                   } focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 rounded-2xl pl-10 pr-4 py-3 text-sm text-white placeholder-slate-500 outline-none transition-all`}

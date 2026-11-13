@@ -159,12 +159,7 @@ export const MarketResearchPage = () => {
       {/* ─── HEADER & CONTROLS ─── */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-slate-800/60">
         <div>
-          <div className="flex items-center gap-2">
-            <span className="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-sky-500/10 border border-sky-500/20 text-sky-400">
-              Module 1 • Market Intelligence
-            </span>
-          </div>
-          <h1 className="text-2xl font-bold tracking-tight text-white flex items-center gap-3 mt-1.5">
+          <h1 className="text-2xl font-bold tracking-tight text-white flex items-center gap-3">
             <Globe className="w-6 h-6 text-sky-400" />
             Market Research & Competitor Benchmarking
           </h1>

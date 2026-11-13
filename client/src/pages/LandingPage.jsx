@@ -203,8 +203,6 @@ export const LandingPage = () => {
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 mb-8 rounded-full bg-indigo-50 dark:bg-indigo-500/10 border border-indigo-200 dark:border-indigo-500/20 text-xs font-semibold text-indigo-700 dark:text-indigo-300 shadow-sm dark:shadow-inner">
             <span className="w-2 h-2 rounded-full bg-indigo-600 dark:bg-indigo-400 animate-pulse" />
             <span>Next-Gen Co-Founder & Venture Simulator</span>
-            <span className="text-indigo-400/50">•</span>
-            <span className="text-indigo-600 dark:text-indigo-200">Powered by Gemini 2.0</span>
           </div>
 
           {/* Main Headline */}

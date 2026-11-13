@@ -194,12 +194,7 @@ export const InvestorSimulationPage = () => {
       {/* ─── HEADER ─── */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-slate-800/60">
         <div>
-          <div className="flex items-center gap-2">
-            <span className="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-violet-500/10 border border-violet-500/20 text-violet-400">
-              Module 3 • Pitch Simulator
-            </span>
-          </div>
-          <h1 className="text-2xl font-bold tracking-tight text-white flex items-center gap-3 mt-1.5">
+          <h1 className="text-2xl font-bold tracking-tight text-white flex items-center gap-3">
             <Users className="w-6 h-6 text-violet-400" />
             AI Investor Simulation Room
           </h1>

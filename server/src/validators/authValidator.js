@@ -63,3 +63,40 @@ export const resendOtpSchema = z.object({
       .toLowerCase(),
   }),
 });
+
+export const forgotPasswordSchema = z.object({
+  body: z.object({
+    email: z
+      .string({ required_error: 'Email address is required' })
+      .trim()
+      .email('Please enter a valid email address')
+      .toLowerCase(),
+  }),
+});
+
+export const resetPasswordSchema = z.object({
+  body: z
+    .object({
+      email: z
+        .string({ required_error: 'Email address is required' })
+        .trim()
+        .email('Invalid email address')
+        .toLowerCase(),
+      otp: z
+        .string({ required_error: 'Verification code is required' })
+        .length(6, 'Verification code must be 6 digits')
+        .regex(/^\d{6}$/, 'Verification code must contain only digits'),
+      new_password: z
+        .string({ required_error: 'New password is required' })
+        .min(8, 'New password must be at least 8 characters')
+        .max(72, 'Password cannot exceed 72 characters')
+        .regex(/[A-Z]/, 'Must contain at least one uppercase letter')
+        .regex(/[a-z]/, 'Must contain at least one lowercase letter')
+        .regex(/[0-9]/, 'Must contain at least one number'),
+      confirm_password: z.string({ required_error: 'Please confirm your new password' }),
+    })
+    .refine((data) => data.new_password === data.confirm_password, {
+      message: 'New password and confirmation do not match',
+      path: ['confirm_password'],
+    }),
+});
