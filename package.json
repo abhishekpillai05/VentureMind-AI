@@ -1,0 +1,12 @@
+{
+  "name": "venturemind-ai-root",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "server": "npm --prefix server run dev",
+    "client": "npm --prefix client run dev",
+    "build:client": "npm --prefix client run build",
+    "test:integration": "node server/src/testIntegration.js",
+    "test:requirements": "node server/src/testAllRequirements.js"
+  }
+}
