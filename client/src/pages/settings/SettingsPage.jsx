@@ -1105,53 +1105,41 @@ export const SettingsPage = () => {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-              <div className="p-4 rounded-xl bg-slate-950/60 border border-slate-800 space-y-1">
-                <span className="text-xs text-slate-400 font-medium">Registered Account Email</span>
-                <p className="text-sm font-semibold text-white truncate">{profile.email}</p>
-                <span className="text-[10px] text-slate-500 block">Primary communication address</span>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800 space-y-1">
+                <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">Registered Account Email</span>
+                <p className="text-sm font-semibold text-slate-900 dark:text-white truncate">{profile.email}</p>
+                <span className="text-[10px] text-slate-400 dark:text-slate-500 block">Primary communication address</span>
               </div>
 
-              <div className="p-4 rounded-xl bg-slate-950/60 border border-slate-800 space-y-1">
-                <span className="text-xs text-slate-400 font-medium">Email Verification</span>
+              <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800 space-y-1">
+                <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">Email Verification</span>
                 <div className="flex items-center gap-2 pt-0.5">
                   {profile.email_verified ? (
-                    <span className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-400">
+                    <span className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
                       <CheckCircle2 className="w-3.5 h-3.5" />
                       Verified via Gmail OTP
                     </span>
                   ) : (
-                    <span className="inline-flex items-center gap-1 text-xs font-semibold text-amber-400">
+                    <span className="inline-flex items-center gap-1 text-xs font-semibold text-amber-600 dark:text-amber-400">
                       <AlertCircle className="w-3.5 h-3.5" />
                       Pending Verification
                     </span>
                   )}
                 </div>
-                <span className="text-[10px] text-slate-500 block">Full platform capabilities unlocked</span>
+                <span className="text-[10px] text-slate-400 dark:text-slate-500 block">Full platform capabilities unlocked</span>
               </div>
 
-              <div className="p-4 rounded-xl bg-slate-950/60 border border-slate-800 space-y-1">
-                <span className="text-xs text-slate-400 font-medium">Account Role & Tier</span>
-                <p className="text-sm font-semibold text-white capitalize">{profile.role || 'Founder'}</p>
-                <span className="text-[10px] text-slate-500 block">Unlimited simulations & reports</span>
+              <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800 space-y-1">
+                <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">Account Role & Tier</span>
+                <p className="text-sm font-semibold text-slate-900 dark:text-white capitalize">{profile.role || 'Founder'}</p>
+                <span className="text-[10px] text-slate-400 dark:text-slate-500 block">Unlimited simulations & reports</span>
               </div>
 
-              <div className="p-4 rounded-xl bg-slate-950/60 border border-slate-800 space-y-1">
-                <span className="text-xs text-slate-400 font-medium">Member Since</span>
-                <p className="text-sm font-semibold text-white">{formatDate(profile.created_at)}</p>
-                <span className="text-[10px] text-slate-500 block">Registration date</span>
-              </div>
-
-              <div className="p-4 rounded-xl bg-slate-950/60 border border-slate-800 space-y-1">
-                <span className="text-xs text-slate-400 font-medium">Security Encryption</span>
-                <p className="text-sm font-semibold text-emerald-400">Bcrypt + JWT 7d</p>
-                <span className="text-[10px] text-slate-500 block">Salt rounds 12</span>
-              </div>
-
-              <div className="p-4 rounded-xl bg-slate-950/60 border border-slate-800 space-y-1">
-                <span className="text-xs text-slate-400 font-medium">Database Node</span>
-                <p className="text-sm font-semibold text-indigo-400">MySQL venturemind_db</p>
-                <span className="text-[10px] text-slate-500 block">Foreign-key cascaded</span>
+              <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800 space-y-1">
+                <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">Member Since</span>
+                <p className="text-sm font-semibold text-slate-900 dark:text-white">{formatDate(profile.created_at)}</p>
+                <span className="text-[10px] text-slate-400 dark:text-slate-500 block">Registration date</span>
               </div>
             </div>
           </div>
